@@ -143,11 +143,11 @@ function clearStatusClass(element) {
 //Array of questions, containing an array of answers
 const questions = [
     {
-        imageURL: 'elbrus_mountain.jpg',
-        question: 'Which is the tallest mountain in Europe?',
+        imageURL: 'mont_blanc.jpg',
+        question: 'Which is the tallest mountain in the Europe Union?',
         answers: [
-            { text: 'Mt. Elbrus', correct: true },
-            { text: 'Mont Blanc', correct: false },
+            { text: 'Mont Blanc', correct: true },
+            { text: 'Mt. Elbrus', correct: false },
             { text: 'Ben Nevis', correct: false },
             { text: 'Matterhorn', correct: false }
         ]
@@ -189,7 +189,31 @@ const questions = [
             { text: '227', correct: true },
             { text: '108', correct: false },
             { text: '313', correct: false },
-            { text: '1', correct: false },
+            { text: '1', correct: false }
         ]
-    }
+    },
+    {
+        imageURL: 'lake.baikal.jpg',
+        question: 'What is the name of the deepest lake in the world?',
+        answers: [
+            { text: 'Lake Baikal, Russia', correct: true },
+            { text: 'Lake Tanganyika, Africa', correct: false },
+            { text: 'Lake Matano, Indonesia', correct: false },
+            { text: 'Lake Vostok, Antartica', correct: false },
+            { text: 'Lake Tahoe, North Americ', correct: false },
+            { text: 'Lake Hauroko, New Zealand', correct: false },
+        ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+
 ]
