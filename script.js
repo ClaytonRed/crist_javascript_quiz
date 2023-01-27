@@ -8,12 +8,10 @@ const intro = document.getElementById('intro')
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
 
+// initializing correctAnswers variable
 let correctAnswers = 0
 
-// const questionImg = document.getElementById('question-img');
-
-
-// These variables are set as undefined
+// initializing these variables as undefined
 let shuffledQuestions, currentQuestionsIndex;
 
 // Adding a listener, when clicked: +1 to currentQuestionIndex, calls setNextQuestion function
@@ -28,9 +26,9 @@ nextButton.addEventListener('click', () => {
 function startGame() {
     startButton.classList.add('hide');
     intro.classList.add('hide');
-
     shuffledQuestions = questions.sort(() => Math.random() - .5);
     currentQuestionsIndex = 0;
+    correctAnswers = 0;
     questionContainerElement.classList.remove('hide');
     answerButtonsElement.classList.remove('hide')
     resultsParagraph.classList.add('hide');
@@ -45,23 +43,20 @@ function setNextQuestion() {
 
 // Sets the question text, taken from the questions array
 function showQuestion(question) {
-    // Show the loading spinner
     loading.classList.remove('hide');
     questionElement.classList.add('hide')
-
     const questionImage = document.createElement('img')
     questionImage.setAttribute('id', 'question-img')
     questionImage.classList.add('hide')
     
-    // We're adding an event listener so that the buttons don't load until the image has loaded so there's not a flash
+    // adding an event listener so that the question info doesn't load until after the image. 
     questionImage.addEventListener('load', () => {
-        // Hide loading spinner when the question has loaded
-        // force wait so we can see the spinner lol
+
+        // forced wait so we can see the spinner lol
         setTimeout(() => {
             loading.classList.add('hide');
             questionImage.classList.remove('hide')
             questionElement.classList.remove('hide')
-
             questionElement.innerText = question.question
 
             // This randomizes the position of the answers when displayed
@@ -69,36 +64,30 @@ function showQuestion(question) {
 
             randomizeAnswers.forEach(answer => {
                 // Creates a new button element
-                const button = document.createElement('button')  // <button></button>
-                button.innerText = answer.text                   // <button> 'question text' </button>
-                button.classList.add('btn')                     // <button class="btn"> 'question-text' </button>
-
+                const button = document.createElement('button')
+                button.innerText = answer.text
+                button.classList.add('btn')
                 if (answer.correct) {
-                    button.dataset.correct = answer.correct     // <button class="btn">What is 2+2</button>
+                    button.dataset.correct = answer.correct
                 }
-                
                 button.addEventListener('click', selectAnswer)
                 answerButtonsElement.appendChild(button)
             })
-        }, 1200)
+        }, 1200) // wait time in ms
         
     })
-
     questionImage.src = question.imageURL
-    questionContainerElement.prepend(questionImage)
+    questionContainerElement.prepend(questionImage) // adds the question image
 }
 
 function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
-
     // Removes the image element to allow for a clean load
     const questionContainerElementImage = questionContainerElement.querySelector('#question-img')
-
-    if (questionContainerElementImage) {
+     if (questionContainerElementImage) {
         questionContainerElement.removeChild(questionContainerElementImage)
     }
-
     // `.firstChild` will only return if there is a child element to return. So when all the buttons are gone, the loop will exit.
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild)
@@ -106,21 +95,16 @@ function resetState() {
 }
 
 // Pressing an ANSWER button selects and answer, displays result
-
 function selectAnswer(event) {
     const selectedButton = event.target
     const correct = selectedButton.dataset.correct
-    
     if (correct) {
         correctAnswers++
     }
-
     setStatusClass(document.body, correct)
-
     Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
     })
-
     if (shuffledQuestions.length > currentQuestionsIndex + 1) {
         nextButton.classList.remove('hide')
     } else {
@@ -140,10 +124,9 @@ function showResults() {
     questionContainerElementImage.classList.add('hide')
 }
 
-
-
 function setStatusClass(element, correct) {
     clearStatusClass(element)
+    element.setAttribute('disabled', true)
 
     if (correct) {
         element.classList.add('correct')
